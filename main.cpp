@@ -1,10 +1,17 @@
 #include <iostream>
 #include <thread>
 #include <wiringPi.h>
+#include <softPwm.h>
 
 #define KP 0.3
 #define TI 0.5
 #define TD 0.1
+
+#define MOTOR_F 3
+#define MOTOR_B 2
+#define MOTOR_PWM 0
+
+#define HALL_IN 8
 
 void renderLoop() {
 
@@ -21,11 +28,18 @@ bool shouldLoop() {
 int main() {
 
     //Init
-    wiringPiSetup();
-    pinMode(2, INPUT);
-    pullUpDnControl(2, PUD_DOWN);
+    if (wiringPiSetup() == -1) {
+        return -1;
+    }
+    pinMode(MOTOR_B, OUTPUT);
+    digitalWrite(MOTOR_B, LOW);
+    pinMode(MOTOR_F, OUTPUT);
+    digitalWrite(MOTOR_F, HIGH);
 
-    pinMode(1, PWM_OUTPUT);
+    pinMode(HALL_IN, INPUT);
+    pullUpDnControl(HALL_IN, PUD_DOWN);
+
+    softPwmCreate(MOTOR_PWM, 0, 128);
 
     //Start Render Loop
     std::thread thread1(renderLoop);
@@ -40,7 +54,9 @@ int main() {
     double integral = 0;
     double lastError = 0;
 
-    while (shouldLoop()) {
+    for (int i = 0; i < 128; i++) {
+        softPwmWrite(MOTOR_PWM, i);
+//        pwmWrite(1, i * 20);
 //        double error = desiredRPS - currentRPS;
 //        integral += error;
 //
@@ -53,10 +69,12 @@ int main() {
 //        std::cout << currentRPS << std::endl;
 //
 //        lastError = error;
-        std::cout << digitalRead(2) << std::endl;
+        std::cout << (digitalRead(HALL_IN)) << std::endl;
 
         delay(250);
     }
+
+    softPwmStop(MOTOR_PWM);
 
     return 0;
 }
