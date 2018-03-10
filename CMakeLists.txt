@@ -13,12 +13,13 @@ if (NOT WIN32 AND NOT APPLE AND UNIX)
     # Include headers
     include_directories(${WIRINGPI_INCLUDE_DIRS})
 else ()
-    include_directories("wiringPi")
+    include_directories("include/wiringPi")
+    include_directories("include")
 endif ()
 
 set(SOURCE_FILES main.cpp
-        drawAPI.h
-        drawAPI.cpp Country.cpp Country.h)
+        DrawApi.h
+        DrawApi.cpp Country.cpp Country.h)
 
 add_executable(Spheralizer ${SOURCE_FILES})
 
