@@ -36,8 +36,8 @@ int drawAPI::getIndex(double latitude, double longitude){
     }
 
     //Divide by the "angle" of each LED to get the LED bucket it should be in
-    int LED = int(latitude/phi); //truncates down
-    int state = int(longitude/theta);
+    int LED = static_cast<int>(latitude/phi); //truncates down
+    int state = static_cast<int>(longitude/theta);
 
     //every other LED is set to a state exact opposiute, since we have a full loop
     if(LED %2 == 0){
@@ -61,8 +61,8 @@ int drawAPI::getIndex(double latitude, double longitude){
 void drawAPI::setImage(double latitude1, double longitude1, double latitude2, double longitude2, uint32_t *image, int width, int height){
 
     //The step we use along the image (might make a more complicated function)
-    int horizontalStep = width/abs(int(longitude1/theta)  -  int(longitude2/theta));
-    int verticalStep = height/abs(int(latitude1/phi) - int(latitude2/phi));
+    int horizontalStep = width/abs( static_cast<int>(longitude1/theta)  -   static_cast<int>(longitude2/theta));
+    int verticalStep = height/abs(static_cast<int>(latitude1/phi) -  static_cast<int>(latitude2/phi));
 
     //the step we use for coords (number of degrees diff/# of LEDS we can write to)
     double latitudeStep = (latitude2 - latitude1)/abs(int(latitude1/phi) - int(latitude2/phi));
@@ -103,9 +103,9 @@ void drawAPI::setImage(double latitude1, double longitude1, double latitude2, do
  */
 void drawAPI::setLine(double latitude1, double longitude1, double latitude2, double longitude2, uint32_t color){
     //same proceess as in setImage(finish it)
-    double latitudeStep = (latitude2 - latitude1)/abs(int(latitude1/phi) - int(latitude2/phi));
+    double latitudeStep = (latitude2 - latitude1)/abs( static_cast<int>(latitude1/phi) -  static_cast<int>(latitude2/phi));
 
-    double longitudeStep =  (longitude2 - longitude1)/abs(int(longitude1/theta)  -  int(longitude2/theta));
+    double longitudeStep =  (longitude2 - longitude1)/abs( static_cast<int>(longitude1/theta)  -   static_cast<int>(longitude2/theta));
 
 
     //loops through the diagonal formed y the lat and long
@@ -141,9 +141,9 @@ void drawAPI::setLine(double latitude1, double longitude1, double latitude2, dou
 void drawAPI::setRect(double latitude1, double longitude1, double latitude2, double longitude2, uint32_t color){
 
     //Lat and long steps
-    double latitudeStep = (latitude2 - latitude1)/abs(int(latitude1/phi) - int(latitude2/phi));
+    double latitudeStep = (latitude2 - latitude1)/abs( static_cast<int>(latitude1/phi) -  static_cast<int>(latitude2/phi));
 
-    double longitudeStep =  (longitude2 - longitude1)/abs(int(longitude1/theta)  -  int(longitude2/theta));
+    double longitudeStep =  (longitude2 - longitude1)/abs( static_cast<int>(longitude1/theta)  -   static_cast<int>(longitude2/theta));
 
 
     double longitude;

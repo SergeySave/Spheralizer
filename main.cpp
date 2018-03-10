@@ -29,44 +29,70 @@ void gameLoop() {
     Country canada("Canada", 36290000, RICH | COLD);
     connectCountries(&usa, &canada, LAND | AIR | WATER);
 
+
     Country centralAmerica("Central America", 42000000, RURAL | HOT);
     connectCountries(&usa, &centralAmerica, LAND | WATER);
+    connectCountries(&canada, &centralAmerica, AIR | WATER);
 
     Country southAmerica("South America", 422500000, HOT);
     connectCountries(&southAmerica, &centralAmerica, LAND | WATER);
 
+
+
     Country greenland("Greenland", 56186, COLD | RURAL);
     connectCountries(&canada, &greenland, WATER | AIR);
+
+
 
     Country uk("UK", 65640000, RICH | URBAN);
     connectCountries(&uk, &greenland, WATER | AIR);
 
     Country westEurope("West Europe", 397500000, RICH | URBAN);
     connectCountries(&uk, &westEurope, WATER | AIR);
+    connectCountries(&greenland,&westEurope,WATER);
+
 
     Country centralEurope("Central Europe", 163518571, NONE);
     connectCountries(&westEurope, &centralEurope, LAND);
 
+
     Country easternEurope("Eastern Europe", 292000000, NONE);
     connectCountries(&easternEurope, &centralEurope, LAND);
 
+
+
+
     Country russia("Russia", 144300000, RURAL | COLD);
     connectCountries(&russia, &easternEurope, LAND);
+    connectCountries(&russia,&usa,AIR);
+
+
 
     Country china("China", 1379000000, URBAN);
     connectCountries(&russia, &china, LAND);
+    connectCountries(&uk,&china, WATER);
 
     Country middleEast("Middle East", 218000000, RICH | HOT);
     connectCountries(&middleEast, &china, LAND);
+    connectCountries(&middleEast, &usa, AIR);
+    connectCountries(&middleEast, &canada, WATER |AIR);
+    connectCountries(&middleEast, &centralEurope, WATER);
+    connectCountries(&middleEast, &southAmerica, WATER|AIR);
 
     Country northAfrica("North Africa", 195000000, HOT);
+    connectCountries(&russia,&northAfrica,WATER|AIR);
     connectCountries(&northAfrica, &middleEast, LAND);
+    connectCountries(&northAfrica,&centralAmerica, WATER);
 
     Country southernAfrica("Southern Africa", 195000000, HOT);
     connectCountries(&northAfrica, &southernAfrica, LAND);
+    connectCountries(&southAmerica,&southernAfrica,WATER);
+    connectCountries(&centralAmerica,&southernAfrica,WATER);
 
     Country oceania("Oceania", 38820000, NONE);
+    connectCountries(&uk,&oceania,WATER);
     connectCountries(&china, &oceania, WATER);
+    connectCountries(&usa, &oceania, AIR|WATER);
 }
 
 bool running() {
