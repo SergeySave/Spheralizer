@@ -3,6 +3,7 @@
 #include <wiringPi.h>
 #include <softPwm.h>
 #include <cmath>
+#include "Country.h"
 
 #define KP 0.5
 #define TI 0.1
@@ -22,7 +23,50 @@ void renderLoop() {
 }
 
 void gameLoop() {
+    //Initialize Game
+    Country usa("USA", 323000000, RICH | URBAN);
 
+    Country canada("Canada", 36290000, RICH | COLD);
+    connectCountries(&usa, &canada, LAND | AIR | WATER);
+
+    Country centralAmerica("Central America", 42000000, RURAL | HOT);
+    connectCountries(&usa, &centralAmerica, LAND | WATER);
+
+    Country southAmerica("South America", 422500000, HOT);
+    connectCountries(&southAmerica, &centralAmerica, LAND | WATER);
+
+    Country greenland("Greenland", 56186, COLD | RURAL);
+    connectCountries(&canada, &greenland, WATER | AIR);
+
+    Country uk("UK", 65640000, RICH | URBAN);
+    connectCountries(&uk, &greenland, WATER | AIR);
+
+    Country westEurope("West Europe", 397500000, RICH | URBAN);
+    connectCountries(&uk, &westEurope, WATER | AIR);
+
+    Country centralEurope("Central Europe", 163518571, NONE);
+    connectCountries(&westEurope, &centralEurope, LAND);
+
+    Country easternEurope("Eastern Europe", 292000000, NONE);
+    connectCountries(&easternEurope, &centralEurope, LAND);
+
+    Country russia("Russia", 144300000, RURAL | COLD);
+    connectCountries(&russia, &easternEurope, LAND);
+
+    Country china("China", 1379000000, URBAN);
+    connectCountries(&russia, &china, LAND);
+
+    Country middleEast("Middle East", 218000000, RICH | HOT);
+    connectCountries(&middleEast, &china, LAND);
+
+    Country northAfrica("North Africa", 195000000, HOT);
+    connectCountries(&northAfrica, &middleEast, LAND);
+
+    Country southernAfrica("Southern Africa", 195000000, HOT);
+    connectCountries(&northAfrica, &southernAfrica, LAND);
+
+    Country oceania("Oceania", 38820000, NONE);
+    connectCountries(&china, &oceania, WATER);
 }
 
 bool running() {

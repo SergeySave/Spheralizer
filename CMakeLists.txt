@@ -17,8 +17,8 @@ else ()
 endif ()
 
 set(SOURCE_FILES main.cpp
-
-        )
+        drawAPI.h
+        drawAPI.cpp Country.cpp Country.h)
 
 add_executable(Spheralizer ${SOURCE_FILES})
 
