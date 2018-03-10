@@ -9,6 +9,7 @@
 #include <array>
 
 #define NONE 1 << 0         // No special flags
+
 #define RICH 1 << 1         // Gives debuff to infection
 #define RURAL 1 << 2        // Gives debuff to air and water infection - bonus to animal and insect
 #define URBAN 1 << 3        // Gives debuff to animal and insect infection - bonus to air and water infection
