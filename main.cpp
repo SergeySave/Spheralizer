@@ -1,6 +1,6 @@
 #include <iostream>
 #include <thread>
-#include "utils.h"
+#include <wiringPi.h>
 
 #define KP 0.3
 #define TI 0.5
@@ -21,6 +21,11 @@ bool shouldLoop() {
 int main() {
 
     //Init
+    wiringPiSetup();
+    pinMode(2, INPUT);
+    pullUpDnControl(2, PUD_DOWN);
+
+    pinMode(1, PWM_OUTPUT);
 
     //Start Render Loop
     std::thread thread1(renderLoop);
@@ -36,18 +41,19 @@ int main() {
     double lastError = 0;
 
     while (shouldLoop()) {
-        double error = desiredRPS - currentRPS;
-        integral += error;
-
-        double output = KP * (error + integral / TI + TD * (error - lastError));
-
-        currentRPS = output;
-
-        currentRPS -= 1;
-
-        std::cout << currentRPS << std::endl;
-
-        lastError = error;
+//        double error = desiredRPS - currentRPS;
+//        integral += error;
+//
+//        double output = KP * (error + integral / TI + TD * (error - lastError));
+//
+//        currentRPS = output;
+//
+//        currentRPS -= 1;
+//
+//        std::cout << currentRPS << std::endl;
+//
+//        lastError = error;
+        std::cout << digitalRead(2) << std::endl;
 
         delay(250);
     }

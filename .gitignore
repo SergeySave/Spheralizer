@@ -9,3 +9,6 @@ Makefile
 
 #CLion files
 .idea
+
+#Dependencies
+wiringPi/
