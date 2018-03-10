@@ -1,0 +1,11 @@
+#CMake files
+CMakeCache.txt
+cmake_install.cmake
+/CMakeFiles
+/cmake-build-debug
+
+#Make files
+Makefile
+
+#CLion files
+.idea
