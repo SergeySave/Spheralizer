@@ -103,11 +103,28 @@ void drawAPI::setImage(double latitude1, double longitude1, double latitude2, do
  */
 void drawAPI::setLine(double latitude1, double longitude1, double latitude2, double longitude2, uint32_t color){
     //same proceess as in setImage(finish it)
-    int horizontalDist = abs(int(longitude1/theta)  -  int(longitude2/theta));
+    double latitudeStep = (latitude2 - latitude1)/abs(int(latitude1/phi) - int(latitude2/phi));
 
-    int verticalDist = abs(int(latitude1/phi) - int(latitude2/phi));
+    double longitudeStep =  (longitude2 - longitude1)/abs(int(longitude1/theta)  -  int(longitude2/theta));
 
-    double slope;
+
+    //loops through the diagonal formed y the lat and long
+    for(double latitude = latitude1,longitude = longitude1;
+
+        //Loop until you have reached the end
+
+        latitude < latitude2 && longitude < longitude2;
+
+        //Step by the special thingies
+
+        latitude += latitudeStep,longitude += longitudeStep){
+
+
+        //write to the image
+        *buffer1[getIndex(latitude,longitude)] = color;
+
+
+    }
 }
 
 
