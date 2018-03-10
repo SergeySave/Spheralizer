@@ -80,7 +80,7 @@ void drawAPI::setImage(double latitude1, double longitude1, double latitude2, do
         for( j = 0; j < height; j+= verticalStep){
 
             //write the color at the image to the buffer
-            *buffer1[getIndex(latitude ,longitude)] = image[width *j + i];
+            (*buffer1)[getIndex(latitude ,longitude)] = image[width *j + i];
 
             //have longitude and latitude step;
             latitude+= latitudeStep;
@@ -121,7 +121,7 @@ void drawAPI::setLine(double latitude1, double longitude1, double latitude2, dou
 
 
         //write to the image
-        *buffer1[getIndex(latitude,longitude)] = color;
+        (*buffer1)[getIndex(latitude,longitude)] = color;
 
 
     }
@@ -151,7 +151,7 @@ void drawAPI::setRect(double latitude1, double longitude1, double latitude2, dou
     for(double latitude = latitude1; latitude < latitude2; latitude+= latitudeStep){
         for( longitude = longitude1; longitude < longitude2; longitude+= longitudeStep){
             //write rect color to buffer
-            *buffer1[getIndex(latitude1 ,longitude1)] = color;
+            (*buffer1)[getIndex(latitude1 ,longitude1)] = color;
 
 
 
@@ -170,5 +170,5 @@ void drawAPI::setRect(double latitude1, double longitude1, double latitude2, dou
  * @param color that we are setting it to
  */
 void drawAPI::setPoint(double latitude, double longitude, uint32_t color){
-    *buffer1[getIndex(latitude,longitude)] = color;
+    (*buffer1)[getIndex(latitude,longitude)] = color;
 }
