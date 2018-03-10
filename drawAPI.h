@@ -32,6 +32,7 @@ public:
     //writes rect
     void setRect(double latitude1, double longitude1, double latitude2, double longitude2, uint32_t color);
 
+    void setPoint(double latitude, double longitude, uint32_t color);
 private:
     //abs
     int abs(int num);
