@@ -19,7 +19,7 @@ endif ()
 
 set(SOURCE_FILES main.cpp
         DrawApi.h
-        DrawApi.cpp Country.cpp Country.h)
+        DrawApi.cpp Country.cpp Country.h Disease.cpp Disease.h Constants.h Utils.h)
 
 add_executable(Spheralizer ${SOURCE_FILES})
 

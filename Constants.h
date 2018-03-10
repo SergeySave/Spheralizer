@@ -1,0 +1,10 @@
+//
+// Created by Sergey Savelyev on 3/10/18.
+//
+
+#ifndef SPHERALIZER_CONSTANTS_H
+#define SPHERALIZER_CONSTANTS_H
+
+#define INTERCOUNTRY_SPREAD_DIVISOR 200000000 // 2 Million
+
+#endif //SPHERALIZER_CONSTANTS_H

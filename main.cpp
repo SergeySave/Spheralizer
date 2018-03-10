@@ -1,9 +1,18 @@
 #include <iostream>
 #include <thread>
+
+#ifdef __linux__
 #include <wiringPi.h>
 #include <softPwm.h>
+#else
+
+#include "Utils.h"
+
+#endif
+
 #include <cmath>
 #include "Country.h"
+#include "Constants.h"
 
 #define KP 0.5
 #define TI 0.1
@@ -17,6 +26,10 @@
 #define MOTOR_MIN 16
 
 #define HALL_IN 8
+
+bool running() {
+    return true;
+}
 
 void renderLoop() {
 
@@ -93,14 +106,45 @@ void gameLoop() {
     connectCountries(&uk,&oceania,WATER);
     connectCountries(&china, &oceania, WATER);
     connectCountries(&usa, &oceania, AIR|WATER);
-}
 
-bool running() {
-    return true;
+    Country *selectedCountry = &china;
+    std::array<Country *, 15> countries = {&usa, &canada, &centralAmerica, &southAmerica, &greenland, &uk, &westEurope,
+                                           &centralEurope, &easternEurope, &russia, &china, &middleEast, &northAfrica,
+                                           &southernAfrica, &oceania};
+
+    Disease disease(0.00000001, 0.00000002);
+    Disease *pDisease = &disease;
+
+    selectedCountry->setInfected(1);
+
+    while (running()) {
+        unsigned int start = millis();
+
+        for (auto country : countries) {
+            country->birth(0.000000001);
+            country->infect(pDisease);
+            country->kill(pDisease);
+
+            for (int i = 0; i < country->getNumberConnections(); i++) {
+                auto neighbor = country->getConnections()[i];
+                //TODO: type checks
+
+                neighbor.country->infect(pDisease, ((double) country->getInfected()) * neighbor.country->getHealthy() /
+                                                   INTERCOUNTRY_SPREAD_DIVISOR, country->getInfected());
+            }
+        }
+
+        for (auto country : countries) {
+            std::cout << country->getName() << ':' << ' ' << country->getHealthy() << ' ' << country->getInfected()
+                      << ' ' << country->getDead() << std::endl;
+        }
+
+        delay(5000 - start + millis());
+    }
 }
 
 int main() {
-
+#if __linux__
     //Init
     if (wiringPiSetup() == -1) {
         return -1;
@@ -114,6 +158,7 @@ int main() {
     pullUpDnControl(HALL_IN, PUD_DOWN);
 
     softPwmCreate(MOTOR_PWM, MOTOR_MAX / 2, MOTOR_MAX);
+#endif
 
     //Start Render Loop
     std::thread thread1(renderLoop);
@@ -121,6 +166,7 @@ int main() {
     //Start Game Loop
     std::thread thread2(gameLoop);
 
+#if __linux
     //Spin controls
     double currentRPS = 0;
     const double desiredRPS = 1;
@@ -193,6 +239,11 @@ int main() {
     }
 
     softPwmStop(MOTOR_PWM);
+#endif
+
+    while (running()) {
+        delay(1000);
+    }
 
     return 0;
 }
