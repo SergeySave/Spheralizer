@@ -3,5 +3,10 @@ project(Spheralizer)
 
 set(CMAKE_CXX_STANDARD 14)
 
-set(SOURCE_FILES main.cpp drawAPI.cpp drawAPI.h)
+set(SOURCE_FILES main.cpp
+        utils.cpp
+        utils.h
+        drawAPI.cpp
+        drawAPI.h)
+
 add_executable(Spheralizer ${SOURCE_FILES})
