@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.7.2)
 project(Spheralizer)
 
 set(CMAKE_CXX_STANDARD 14)
@@ -18,5 +18,8 @@ target_link_libraries(<yourProjectName> ${CMAKE_THREAD_LIBS_INIT})
 
 set(SOURCE_FILES main.cpp
         utils.cpp
-        utils.h)
+        utils.h
+        drawAPI.cpp
+        drawAPI.h)
+
 add_executable(Spheralizer ${SOURCE_FILES})
